@@ -14,6 +14,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import './Home.css';
 
 const Home: React.FC = () => {
+  let bellPlayer: ReactAudioPlayer | null;
   let musicPlayer: ReactAudioPlayer | null;
 
   return (
@@ -27,6 +28,27 @@ const Home: React.FC = () => {
 
       {/* Main Page */}
       <IonContent fullscreen>
+
+        {/* Bell Ringing */}
+        <IonItem>
+          <IonText>
+            <h4>Bell Ringing</h4>
+          </IonText>
+        </IonItem>
+        <IonItem>
+          <IonButton color="warning" onClick={() => {
+              musicPlayer?.audioEl.current?.pause()
+              bellPlayer?.audioEl.current?.play()
+            }
+          }>
+            Ring a bell
+          </IonButton>
+
+          <ReactAudioPlayer
+            ref={(element) => { bellPlayer = element; }}
+            src="./assets/music/bell_ringing.mp3"
+          />
+        </IonItem>
         
         {/* Music */}
         <IonItem>
@@ -35,12 +57,19 @@ const Home: React.FC = () => {
           </IonText>
         </IonItem>
         <IonItem>
-          <IonButton color="warning" onClick={() => musicPlayer?.audioEl.current?.play()}>Play</IonButton>
+          <IonButton color="warning" onClick={() => {
+              bellPlayer?.audioEl.current?.pause();
+              musicPlayer?.audioEl.current?.play(); 
+            } 
+          }>
+            Play
+          </IonButton>
           <IonButton color="danger" onClick={() => musicPlayer?.audioEl.current?.pause()}>Pause</IonButton>
 
           <ReactAudioPlayer
             ref={(element) => { musicPlayer = element; }}
             src="./assets/music/Hen_Em_Kiep_Sau_Huong_Tu.mp3"
+            loop
           />
         </IonItem>
 
